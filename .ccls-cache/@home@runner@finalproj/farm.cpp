@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+
 #define MAX_SIZE 100
 
 #include "animal.h" //act as node.h
@@ -35,20 +36,44 @@ void instructions() {
   cout << setw(30) << setfill('=') << "=\n";
 }
 
+void guide(){
+  cout << "\n< USER GUIDE >" << "\n";
+  cout << "   Hello, This guide was written for users to have a better understanding of our program. The main function in this program is to calculate the weight of animals in the farm for shipping." << "\n";
+  
+  cout << "\n 1. Input the number of animals adding in the farm." << "\n";
+  cout << "\n 2. Input the type, name, age, and weight of each animal." << "\n";
+  cout << "\n 3. Input the calories of each snack type." << "\n";
+  cout << "\n 4. Choose what type of snack user want to feed all the animal in the farm." << "\n";
+  
+  cout <<  "\n   The program will then calculate the final weight of each animal after eating the snack. If the animals weight is over average, it is ready to be ship off. If not, the animal will not be queued and continous in the farm, waiting for more snack.\n" << "\n";
+}
+
 int main(int argc, char *argv[]) {
   LL link;
   queue q;
   vector<Snack *> snacks; // keep in vector as size of vector is more flexible than array
 
-  unsigned int age, type, num, cal;
+  unsigned int age, type, num, cal, welcome, idk;
   unsigned int animals_number = 0;
   string name;
   double weight;
 
   banner();
-  
-  cout << "How many animals? : ";
-  cin >> num;
+
+  cout << "Welcome to our program!" << "\n";
+  cout << "1. Program Guide" << "\n";
+  cout << "2. Start farming" << "\n";
+  cout << "Ans:";
+  cin >> welcome;
+  if(welcome== 1) 
+    guide();
+  cout<<"Starting farm\n";
+  do{
+    cout << "How many animals? : ";
+    cin >> num;
+    if(num<=0)
+      cout<<"Invalid number, please enter number of animals again\n";
+  }while(num<=0);
   instructions();
   
   unsigned int i = 0;
@@ -60,7 +85,7 @@ int main(int argc, char *argv[]) {
     cin >> name;
     cout << "Age : ";
     cin >> age;
-    cout << "Weight : ";
+    cout << "Weight[kg]: ";
     cin >> weight;
     cout << "\n";
     int inserted = link.insert(type, name, age, weight);
@@ -88,7 +113,7 @@ int main(int argc, char *argv[]) {
   snack_bag();
 
   for (unsigned int i = 1; i <= 3; i++) {
-    cout << "Calories of Snack type " << i << " : ";
+    cout << "Calories of Snack type " << i << " [kcal]: ";
     cin >> cal;
     snacks.push_back(new Snack(to_string(i), cal));
   }
@@ -184,7 +209,18 @@ int main(int argc, char *argv[]) {
   cout << ((link.get_size() >= 0) ? link.get_size() : 0) << " animals waiting for more snacks\n\n";
   (link.get_size() != 0) ? link.printList() : void();
 
+  
   cout << "end of program\n\n";
+
+
+  //printing credits
+  cout << "<Credit>" << "\n"; 
+  cout << "Yanaput\t\tMakbonsonglop\t(Lead Programmer)" << "\n";
+  cout << "Pakkapak\tJungjaroen\t\t(Lead Programmer)" << "\n";
+  cout << "Andaman\t\tJamprasitsakul\t(Debugger)" << "\n";
+  cout << "Jinnaphat\tGuntawang\t\t(Debugger)" << "\n\n";
+  cout << "Special Thanks: Prof.Dr.Mingmanas Sivaraksa\n " << "\n";
+  
 
   for (const auto sna : snacks) {
     delete sna;
@@ -217,4 +253,11 @@ PROJECT UPDATED FROM MIDTERM
 7. at the end, tell user that how many animals ready to be ship and animals that still be in the farm (weight < avg)
 
 Note : 
+
+Things Herb want to add(I ll do later):
+1.show unit of weight, cal[done]
+2.
+3.some errors when false input(string & int)(maybe my personal problem)
+4.maybe add some program guide[done]
+5.credit at the end of the program lol[done]
 */
