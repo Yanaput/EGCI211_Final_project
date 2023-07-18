@@ -88,7 +88,7 @@ int main(){
 
   cout<<"starting farm\n";
     do{
-    cout << "How many intitial animals ? : ";
+    cout << "How many initial animals ? : ";
     cin >> num;
     if(num<=0)
       cout<<"Invalid number, please enter number of animals again\n";
