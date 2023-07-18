@@ -35,7 +35,7 @@ queue::~queue() {
   Animal *tmp;
   string name;
 
-  for (int i = 0; i < size; i++) {
+  for (int i = 0; i <= size; i++) {
     if (head != nullptr) {
       tmp = head;
       name = tmp->get_name();

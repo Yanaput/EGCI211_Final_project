@@ -1,3 +1,6 @@
+//g++ main_test.cpp -o main_test
+//./main_test
+
 #include <iomanip>
 #include <iostream>
 #include <limits.h>
@@ -83,7 +86,7 @@ int main(){
   if(welcome== 1) 
     guide();
   else
-    cout << "\x1B[2J\x1B[H"; //clear console, ANSI escape codes for nixes(using in replit)
+    system("clear"); //clear console, only works on linux and window
 
 
   cout<<"starting farm\n";
@@ -151,7 +154,7 @@ int main(){
   
   snackbubbleSort(snacks);
   
-  cout << "\x1B[2J\x1B[H";
+  system("clear");
   
   animal_face();
   link.printList();
@@ -165,7 +168,7 @@ int main(){
     
     switch(user_option){
       case 1 : {
-        cout << "\x1B[2J\x1B[H";
+        system("clear");
         do{
             animal_face();
             link.printList();
@@ -219,7 +222,7 @@ int main(){
         avgCow = cal_avg(link, "Cow");
         avgSheep = cal_avg(link, "Sheep");
         
-        cout << "\x1B[2J\x1B[H";
+        system("clear");
         animal_face();
         cout<<"Updated animal list and animals average weight\n";
         link.printList();
@@ -227,7 +230,7 @@ int main(){
         break;
       
       case 2 : {
-          cout << "\x1B[2J\x1B[H";
+          system("clear");
           int choice = 0;
           animal_face();
           link.printList();
@@ -244,11 +247,11 @@ int main(){
             cout << "What type of snacks do you want to feed animals ? [1-3]: ";
             cin >> choice;
             if (choice < 1 || choice > 3) {
-              cout << "\x1B[2J\x1B[H";
+              system("clear");
               cout << "No choice feed snack type 1 instead\n";
               choice = 1;
             }
-            cout << "\x1B[2J\x1B[H";
+            system("clear");
             after_eat(link, avgPig, avgChicken, avgCow, avgSheep, snacks, q, choice);
           }
           else
@@ -266,7 +269,7 @@ int main(){
 
       case 3 : {
         unsigned int ship_num = 0;
-        cout << "\x1B[2J\x1B[H";
+        system("clear");
         cout << setw(30) << setfill('=') << "=\n";
         if(q.get_size()<=0){
           cout<<"There is no animal in queue\n";
@@ -279,7 +282,7 @@ int main(){
               cout << "How many animals you want to ship ? : ";
               cin >> ship_num;
               if (ship_num > q.get_size()) {
-                cout << "\x1B[2J\x1B[H";
+                system("clear");
                 cout << "Animals in queue is lower than your demand, ship all animals in queue instead\n";
                 ship_num = q.get_size();
               } 
@@ -287,11 +290,11 @@ int main(){
                 cout << "Invalid number please enter again\n";
               }
               else 
-                cout << "\x1B[2J\x1B[H";
+                system("clear");
             } while (ship_num < 0);
               
             if (ship_num == 0) {
-              cout << "\x1B[2J\x1B[H";
+              system("clear");
               cout << "\n\nNo shipping\n\n";
             }
             else{

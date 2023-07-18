@@ -17,7 +17,7 @@ private:
   unsigned int age;
   double weight;
 
-  // linked lsit
+  //node for linked lsit
   Animal *next;
   Animal *prev;
 
@@ -32,8 +32,6 @@ public:
     this->prev = nullptr;
   }
 
-  // virtual function is the function in main class that will be used in the
-  // derived class
   ~Animal(){};
 
   void set_info(const string &_type, unsigned int _age, double _weight, const string &_name) {

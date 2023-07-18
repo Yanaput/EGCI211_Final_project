@@ -25,7 +25,7 @@ void print_avg_weight(double Pig, double Chicken, double Cow, double Sheep){
   cout << setw(30) << setfill('=') << "=\n";
 }
 
-void instructions() {
+void type_instructions() {
   cout << setw(30) << setfill('=') << "=\n";
   cout << "Select the species type" << "\n";
   cout << setw(3) << "1. Pig" << "\n";
@@ -40,20 +40,35 @@ void guide(){
   cout << "\n< USER GUIDE >" << "\n";
   cout << "   Hello, This guide was written for users to have a better understanding of our program. The main function in this program is to calculate the weight of animals in the farm for shipping." << "\n";
   
-  cout << "\n 1. Input the number of animals adding in the farm." << "\n";
+  cout << "\n 1. Input the number of animals to intitialize farm.\n";
   cout << "\n 2. Input the type, name, age, and weight of each animal." << "\n";
   cout << "\n 3. Input the calories of each snack type." << "\n";
-  cout << "\n 4. Choose what type of snack user want to feed all the animal in the farm." << "\n";
+  cout << "\n 4. Select the option program provided.\n";
+  cout << "\n \t4.1 Option 1 : Repeat step 2 for additional animal \n";
+  cout << "\n \t4.2 Select type of snack and program will feed animals in farm & increase their weight, then will queue animals with weight above or equal to their type's average weight\n";
+  cout << "\n \t4.3 Input number of animals in queue you want to ship\n";
+  cout << "\n 5. To end program input 5 as an option \n";
+  
   
   cout <<  "\n   The program will then calculate the final weight of each animal after eating the snack. If the animals weight is over average, it is ready to be ship off. If not, the animal will not be queued and continous in the farm, waiting for more snack.\n" << "\n";
 }
 
-int main(int argc, char *argv[]) {
+void print_option(){
+  cout << setw(30) << setfill('=') << "=\n";
+  cout<<"Options\n";
+  cout<<"1. add animals to farm\n";
+  cout<<"2. feed & queue animals\n";
+  cout<<"3. ship queued animals\n";
+  cout<<"4. end program\n";
+  cout<<"Select a  option : ";
+}
+
+
+int main(){
   LL link;
   queue q;
-  vector<Snack *> snacks; // keep in vector as size of vector is more flexible than array
-
-  unsigned int age, type, num, cal, welcome, idk;
+  vector<Snack *> snacks;
+  unsigned int age, type, num, cal, welcome, user_option;
   unsigned int animals_number = 0;
   string name;
   double weight;
@@ -63,39 +78,55 @@ int main(int argc, char *argv[]) {
   cout << "Welcome to our program!" << "\n";
   cout << "1. Program Guide" << "\n";
   cout << "2. Start farming" << "\n";
-  cout << "Ans:";
+  cout << "Ans : ";
   cin >> welcome;
   if(welcome== 1) 
     guide();
-  cout<<"Starting farm\n";
-  do{
-    cout << "How many animals? : ";
+  else
+    cout << "\x1B[2J\x1B[H"; //clear console, ANSI escape codes for nixes(using in replit)
+
+
+  cout<<"starting farm\n";
+    do{
+    cout << "How many intitial animals ? : ";
     cin >> num;
     if(num<=0)
       cout<<"Invalid number, please enter number of animals again\n";
-  }while(num<=0);
-  instructions();
+    if(num>=MAX_SIZE)
+      cout<<"Too large number, please enter number of animalsin length [0-99]\n";
+  }while(num<=0 && num>=MAX_SIZE);
   
-  unsigned int i = 0;
-  while (i < num) {
+  type_instructions();
+  
+  int i = 0;
+  while (i  < num) {
     cout<<"Animal number : "<<i+1<<"\n";
-    cout << "Type : ";
-    cin >> type;
+    do{
+      cout << "Type : ";
+      cin >> type;
+      if(type>4 || type <1)
+        cout<<"Invalid type, please enter again\n";
+    }while(type>4 || type <1);
     cout << "Name : ";
     cin >> name;
-    cout << "Age : ";
-    cin >> age;
-    cout << "Weight[kg]: ";
-    cin >> weight;
+    do{
+      cout << "Age : ";
+      cin >> age;  
+      if(age<=0)
+        cout<<"Invalid age, please enter again\n";
+    }while(age<=0);
+    do{
+      cout << "Weight[kg]: ";
+      cin >> weight;
+      if(weight<=0)
+        cout<<"Invalid weight, please enter again\n";
+    }while(weight<=0);
     cout << "\n";
     int inserted = link.insert(type, name, age, weight);
 
-    if (type > 4 || type < 1 || inserted == 0) {
+    if (inserted == 0) {
       if (inserted == 0) {
-        cout << "Already has this name in the same type, please enter new name\n";
-      }
-      if (type > 4 || type < 1) {
-        cout << "Invalid type, please enter animal's info again\n";
+        cout << "Please enter new name\n";
       }
     } 
     else {
@@ -117,89 +148,167 @@ int main(int argc, char *argv[]) {
     cin >> cal;
     snacks.push_back(new Snack(to_string(i), cal));
   }
-  cout << "\033[2J\033[0;0H";//clear console, idk does it works i just found it on replit community
-
-  snackbubbleSort(snacks);
-  string countinue_program = "y";
   
-  cout << "\n";
-  do {
-    int choice = 0, ship_num = 0;
-    string ship;
-
-    animal_face();
-    link.printList();
-    cout << setw(30) << setfill('=') << "=\n\n";
-    if(link.get_size()!=0){
-      print_snack(snacks);
-    }
+  snackbubbleSort(snacks);
+  
+  cout << "\x1B[2J\x1B[H";
+  
+  animal_face();
+  link.printList();
+  print_avg_weight(avgPig, avgChicken, avgCow, avgSheep);
+  print_snack(snacks);
+  cout << setw(30) << setfill('=') << "=\n";
+  
+  do{
+    print_option();
+    cin>>user_option;
     
-    print_avg_weight(avgPig, avgChicken, avgCow, avgSheep);
-    
-    if(link.get_size()!=0)
-    {
-      cout << "\nFeed animals\n";
-      cout << "What type of snacks do you want to feed animals ? [1-3]: ";
-      cin >> choice;
-      if (choice < 1 || choice > 3) {
-        cout << "\033[2J\033[0;0H";
-        cout << "No choice feed snack type 1 instead\n";
-        choice = 1;
-      }
-      else
-        cout << "\033[2J\033[0;0H";
-      
-      after_eat(link, avgPig, avgChicken, avgCow, avgSheep, snacks, q, choice);
-    }
-    cout << setw(30) << setfill('=') << "=\n";
-    
-    if (q.get_size() > 0) {
-      cout << "\nQueued above average weight animals \n\n";
-      cout << "There are " << q.get_size() << " animals in queue.\n";
-      q.print_queue();
-
-      cout << "Do you want to ship animals in queue ? [y/n] : ";
-      cin >> ship;
-      if (ship == "y" || ship == "Y") {
-        do {
-          cout << "How many animals you want to ship ? : ";
-          cin >> ship_num;
-          if (ship_num > q.get_size()) {
-            cout << "\033[2J\033[0;0H";
-            cout << "Animals in queue is lower than your demand, ship all animals in queue instead\n";
-            ship_num = q.get_size();
-          } 
-          else if (ship_num < 0) {
-            cout << "Invalid number please enter again\n";
-          }
-          else 
-            cout << "\033[2J\033[0;0H";
-        } while (ship_num < 0);
+    switch(user_option){
+      case 1 : {
+        cout << "\x1B[2J\x1B[H";
+        do{
+            animal_face();
+            link.printList();
+            cout << "How many animals you want to add ? : ";
+            cin >> num;
+            if(num<=0)
+              cout<<"Invalid number, please enter number of animals again\n";
+            if(num>=MAX_SIZE)
+              cout<<"Too large number, please enter number of animals again\n";
+          }while(num<=0 && num>=MAX_SIZE);
+          type_instructions();
           
-        if (ship_num == 0) {
-          cout << "\033[2J\033[0;0H";
-          cout << "\n\nNo shipping\n\n";
-        }
+          unsigned int i = 0;
+          while (i < num) {
+            cout<<"Addition animal number : "<<i+1<<"\n";
+            cout << "Type : ";
+            cin >> type;
+            cout << "Name : ";
+            cin >> name;
+            do{
+              cout << "Age : ";
+              cin >> age;  
+              if(age<=0)
+                cout<<"Invalid age, please enter again\n";
+            }while(age<=0);
+            do{
+              cout << "Weight[kg]: ";
+              cin >> weight;
+              if(weight<=0)
+                cout<<"Invalid weight, please enter again\n";
+            }while(weight<=0);
+            cout << "\n";
+            int inserted = link.insert(type, name, age, weight);
         
-        for (int i = 0; i < ship_num; i++) {
-          q.dequeue();
-        }
-
-        if(ship_num != 0)
-          truck();
-      } 
-      else if (ship != "y") {
-        cout << "\033[2J\033[0;0H";
-        cout << "\nNo shipping\n\n";
+            if (type > 4 || type < 1 || inserted == 0) {
+              if (inserted == 0) {
+                cout << "Please enter new name\n";
+              }
+              if (type > 4 || type < 1) {
+                cout << "Invalid type, please enter animal's info again\n";
+              }
+            } 
+            else {
+              i++;
+            }
+          }
       }
-    }
-    if(link.get_size() != 0 || q.get_size() != 0){  
-      cout << "Do you want to countinue manage your farm? [y/n]: ";
-      cin >> countinue_program;
-    }
+        cout << setw(30) << setfill('=') << "\n\n";
+        avgPig = cal_avg(link, "Pig");
+        avgChicken = cal_avg(link, "Chicken");
+        avgCow = cal_avg(link, "Cow");
+        avgSheep = cal_avg(link, "Sheep");
+        
+        cout << "\x1B[2J\x1B[H";
+        animal_face();
+        cout<<"Updated animal list and animals average weight\n";
+        link.printList();
+        print_avg_weight(avgPig, avgChicken, avgCow, avgSheep);
+        break;
+      
+      case 2 : {
+          cout << "\x1B[2J\x1B[H";
+          int choice = 0;
+          animal_face();
+          link.printList();
+          cout << setw(30) << setfill('=') << "=\n\n";
+        
+          if(link.get_size()!=0){
+            print_snack(snacks);
+          }
+            
+          print_avg_weight(avgPig, avgChicken, avgCow, avgSheep);
+    
+          if(link.get_size()!=0) {
+            cout << "\nFeed animals\n";
+            cout << "What type of snacks do you want to feed animals ? [1-3]: ";
+            cin >> choice;
+            if (choice < 1 || choice > 3) {
+              cout << "\x1B[2J\x1B[H";
+              cout << "No choice feed snack type 1 instead\n";
+              choice = 1;
+            }
+            cout << "\x1B[2J\x1B[H";
+            after_eat(link, avgPig, avgChicken, avgCow, avgSheep, snacks, q, choice);
+          }
+          else
+            cout<<"There is no animal in farm\n";
+        
+          cout << setw(30) << setfill('=') << "=\n";
+    
+          if (q.get_size() > 0) {
+          cout << "\nQueued above average weight animals \n\n";
+          cout << "There are " << q.get_size() << " animals in queue.\n";
+          q.print_queue();
+          }
+      break;
+      }
 
-    // cout<<"\nendloop\n";
-  } while ((link.get_size() != 0 || q.get_size() != 0) && (countinue_program != "n" && countinue_program != "N"));
+      case 3 : {
+        unsigned int ship_num = 0;
+        cout << "\x1B[2J\x1B[H";
+        cout << setw(30) << setfill('=') << "=\n";
+        if(q.get_size()<=0){
+          cout<<"There is no animal in queue\n";
+          cout << "\n\nNo shipping\n\n";
+          break;
+        }
+            do {
+              cout <<"There are "<< q.get_size() <<" animals in queue\n";
+              q.print_queue();
+              cout << "How many animals you want to ship ? : ";
+              cin >> ship_num;
+              if (ship_num > q.get_size()) {
+                cout << "\x1B[2J\x1B[H";
+                cout << "Animals in queue is lower than your demand, ship all animals in queue instead\n";
+                ship_num = q.get_size();
+              } 
+              else if (ship_num < 0) {
+                cout << "Invalid number please enter again\n";
+              }
+              else 
+                cout << "\x1B[2J\x1B[H";
+            } while (ship_num < 0);
+              
+            if (ship_num == 0) {
+              cout << "\x1B[2J\x1B[H";
+              cout << "\n\nNo shipping\n\n";
+            }
+            else{
+              truck();
+              for (int i = 0; i < ship_num; i++) {
+                q.dequeue();
+              }
+            }  
+        break;
+        }
+      case 4 : break;
+      default: {
+        cout<<"Invalid option please select again\n";
+        continue;
+      }
+    }    
+  }while(user_option!=4);
 
   cout << setw(30) << setfill('=') << "=\n";
   
@@ -208,12 +317,8 @@ int main(int argc, char *argv[]) {
 
   cout << ((link.get_size() >= 0) ? link.get_size() : 0) << " animals waiting for more snacks\n\n";
   (link.get_size() != 0) ? link.printList() : void();
-
-  
   cout << "end of program\n\n";
 
-
-  //printing credits
   cout << "<Credit>" << "\n"; 
   cout << "Yanaput\t\tMakbonsonglop\t(Lead Programmer)" << "\n";
   cout << "Pakkapak\tJungjaroen\t\t(Lead Programmer)" << "\n";
@@ -228,36 +333,3 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
-
-// sort age by linked list  [done]
-// fix avg cal  [done]
-// change most of int to unsigned int [done]
-// enqueue animals that weight >= average from linked list [done]
-// eat snack ++weight by cal of snack*0.75 [done]
-// {dequeue} ask whether user want to feed & ship them. if yes, [done]
-// case error [done]
-// interface [done]
-// delete new variable [done]
-
-/*
-PROJECT UPDATED FROM MIDTERM
--- use linked list in the animal class to replace sorting algo
--- use enum to get type of animals rather than using 
-***
-1. input the animals into the linked list // sort by age
-2. input the snacks
-3. cal avg for each animals
-4. if(oldest animals that weight >= average) enqueue // (for those lower that avg) ask which type of snack user want to give and then if they meet conditions, enqueue them.
-5. ask whether user want to ship them or not // if (y/Y) ask the number that they want to ship then dequeue and then keep the remainings
-6. ask user if user wants to ship more animals (if they are available in the queue or linked list, if yes loop again to the case that we want how many of them to be shipped. Or else ask if they want to feed animals more?
-7. at the end, tell user that how many animals ready to be ship and animals that still be in the farm (weight < avg)
-
-Note : 
-
-Things Herb want to add(I ll do later):
-1.show unit of weight, cal[done]
-2.
-3.some errors when false input(string & int)(maybe my personal problem)
-4.maybe add some program guide[done]
-5.credit at the end of the program lol[done]
-*/
