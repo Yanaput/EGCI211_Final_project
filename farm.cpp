@@ -63,6 +63,54 @@ void print_option(){
   cout<<"Select a  option : ";
 }
 
+void insert_animal(LL& link, int num){
+  unsigned int age, type, cal, welcome, user_option;
+  string name;
+  double weight;
+  type_instructions();
+  
+  int i = 0;
+  while (i  < num) {
+    cout<<"Animal number : "<<i+1<<"\n";
+    do{
+      cout << "Type : ";
+      cin >> type;
+      if(type>4 || type <1)
+        cout<<"Invalid type, please enter again\n";
+    }while(type>4 || type <1);
+    
+    cout << "Name : ";
+    cin >> name;
+    
+    do{
+      cout << "Age : ";
+      cin >> age;  
+      if(age<=0)
+        cout<<"Invalid age, please enter again\n";
+    }while(age<=0);
+    
+    do{
+      cout << "Weight[kg]: ";
+      cin >> weight;
+      if(weight<=0)
+        cout<<"Invalid weight, please enter again\n";
+    }while(weight<=0);
+    cout << "\n";
+    
+    int inserted = link.insert(type, name, age, weight);
+
+    if (inserted == 0) {
+      if (inserted == 0) {
+        cout << "Please enter new name\n";
+      }
+    } 
+    else {
+      i++;
+    }
+  }
+  cout << setw(30) << setfill('=') << "\n\n";
+}
+
 
 int main(){
   LL link;
@@ -96,51 +144,13 @@ int main(){
       cout<<"Too large number, please enter number of animalsin length [0-99]\n";
   }while(num<=0 && num>=MAX_SIZE);
   
-  type_instructions();
+  insert_animal(link,num);
   
-  int i = 0;
-  while (i  < num) {
-    cout<<"Animal number : "<<i+1<<"\n";
-    do{
-      cout << "Type : ";
-      cin >> type;
-      if(type>4 || type <1)
-        cout<<"Invalid type, please enter again\n";
-    }while(type>4 || type <1);
-    cout << "Name : ";
-    cin >> name;
-    do{
-      cout << "Age : ";
-      cin >> age;  
-      if(age<=0)
-        cout<<"Invalid age, please enter again\n";
-    }while(age<=0);
-    do{
-      cout << "Weight[kg]: ";
-      cin >> weight;
-      if(weight<=0)
-        cout<<"Invalid weight, please enter again\n";
-    }while(weight<=0);
-    cout << "\n";
-    int inserted = link.insert(type, name, age, weight);
-
-    if (inserted == 0) {
-      if (inserted == 0) {
-        cout << "Please enter new name\n";
-      }
-    } 
-    else {
-      i++;
-    }
-  }
-
-  cout << setw(30) << setfill('=') << "\n\n";
-
   double avgPig = cal_avg(link, "Pig");
   double avgChicken = cal_avg(link, "Chicken");
   double avgCow = cal_avg(link, "Cow");
   double avgSheep = cal_avg(link, "Sheep");
-
+  
   snack_bag();
 
   for (unsigned int i = 1; i <= 3; i++) {
@@ -176,42 +186,10 @@ int main(){
             if(num>=MAX_SIZE)
               cout<<"Too large number, please enter number of animals again\n";
           }while(num<=0 && num>=MAX_SIZE);
-          type_instructions();
-          
-          unsigned int i = 0;
-          while (i < num) {
-            cout<<"Addition animal number : "<<i+1<<"\n";
-            cout << "Type : ";
-            cin >> type;
-            cout << "Name : ";
-            cin >> name;
-            do{
-              cout << "Age : ";
-              cin >> age;  
-              if(age<=0)
-                cout<<"Invalid age, please enter again\n";
-            }while(age<=0);
-            do{
-              cout << "Weight[kg]: ";
-              cin >> weight;
-              if(weight<=0)
-                cout<<"Invalid weight, please enter again\n";
-            }while(weight<=0);
-            cout << "\n";
-            int inserted = link.insert(type, name, age, weight);
         
-            if (type > 4 || type < 1 || inserted == 0) {
-              if (inserted == 0) {
-                cout << "Please enter new name\n";
-              }
-              if (type > 4 || type < 1) {
-                cout << "Invalid type, please enter animal's info again\n";
-              }
-            } 
-            else {
-              i++;
-            }
-          }
+          type_instructions();
+        
+          insert_animal(link,num);
       }
         cout << setw(30) << setfill('=') << "\n\n";
         avgPig = cal_avg(link, "Pig");
@@ -257,6 +235,7 @@ int main(){
           cout << setw(30) << setfill('=') << "=\n";
     
           if (q.get_size() > 0) {
+          print_avg_weight(avgPig, avgChicken, avgCow, avgSheep);
           cout << "\nQueued above average weight animals \n\n";
           cout << "There are " << q.get_size() << " animals in queue.\n";
           q.print_queue();

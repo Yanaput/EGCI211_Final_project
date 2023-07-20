@@ -36,14 +36,12 @@ LL::LL() {
 LL::~LL() {
   Animal *tmp;
   tmp = head;
-  string name;
 
   for (unsigned int i = 0; i < size; i++) {
-    name = tmp->get_name();
     head = head->get_next();
     delete tmp;
     tmp = head;
-    cout << "See you next time." << name <<"\n";
+    cout << "See you next time.\n";
   }
 }
 
