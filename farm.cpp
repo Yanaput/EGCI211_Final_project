@@ -142,7 +142,7 @@ int main(){
       cout<<"Invalid number, please enter number of animals again\n";
     if(num>=MAX_SIZE)
       cout<<"Too large number, please enter number of animalsin length [0-99]\n";
-  }while(num<=0 && num>=MAX_SIZE);
+  }while(num<=0 || num>=MAX_SIZE);
   
   insert_animal(link,num);
   
@@ -185,7 +185,7 @@ int main(){
               cout<<"Invalid number, please enter number of animals again\n";
             if(num>=MAX_SIZE)
               cout<<"Too large number, please enter number of animals again\n";
-          }while(num<=0 && num>=MAX_SIZE);
+          }while(num<=0 || num>=MAX_SIZE);
         
           type_instructions();
         
