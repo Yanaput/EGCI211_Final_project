@@ -63,7 +63,7 @@ void print_option(){
   cout<<"Select a  option : ";
 }
 
-void insert_animal(LL& link, int num){
+void insert_animal(LL &link, int num){
   unsigned int age, type, cal, welcome, user_option;
   string name;
   double weight;
@@ -110,7 +110,6 @@ void insert_animal(LL& link, int num){
   }
   cout << setw(30) << setfill('=') << "\n\n";
 }
-
 
 int main(){
   LL link;

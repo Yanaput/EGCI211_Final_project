@@ -41,8 +41,8 @@ LL::~LL() {
     head = head->get_next();
     delete tmp;
     tmp = head;
-    cout << "See you next time.\n";
   }
+    cout << "See you next time.\n";
 }
 
 unsigned int LL::isEmpty() { return head == nullptr; }
