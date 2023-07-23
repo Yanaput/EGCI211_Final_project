@@ -101,4 +101,12 @@ void print_snack(vector<Snack *> &sna){
   }
 }
 
+void print_avg_weight(double Pig, double Chicken, double Cow, double Sheep){
+  cout << setw(30) << setfill('=') << "\n\n";
+  cout << "Pig's average weight " << setw(10) << setfill(' ') << Pig << "\n";
+  cout << "Chicken's average weight " << setw(6) << setfill(' ') << Chicken << "\n";
+  cout << "Cow's average weight " << setw(10) << setfill(' ') << Cow << "\n";
+  cout << "sheep's average weight " << setw(8) << setfill(' ') << Sheep << "\n\n";
+  cout << setw(30) << setfill('=') << "=\n";
+}
 #endif

@@ -46,7 +46,8 @@ queue::~queue() {
       }
     }
     --size;
-    cout << "Have a good day to " << name << "\n";
+    if(tail!=nullptr)
+      cout << "Have a good day to " << name << "\n";
   }
 }
 

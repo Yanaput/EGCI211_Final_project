@@ -3,64 +3,67 @@
 #include <limits.h>
 #include <string>
 #include <vector>
-
+#include <exception>
 
 #define MAX_SIZE 100
 
 #include "animal.h" //act as node.h
-#include "function.h"
-#include "linkedlist.h"
-#include "banners.h"
-#include "queue.h"
 #include "snack.h"
+#include "linkedlist.h"
+#include "queue.h"
+#include "function.h"
+#include "banners.h"
 
 using namespace std;
 
-void print_avg_weight(double Pig, double Chicken, double Cow, double Sheep){
-  cout << setw(30) << setfill('=') << "\n\n";
-  cout << "Pig's average weight " << setw(10) << setfill(' ') << Pig << "\n";
-  cout << "Chicken's average weight " << setw(6) << setfill(' ') << Chicken << "\n";
-  cout << "Cow's average weight " << setw(10) << setfill(' ') << Cow << "\n";
-  cout << "sheep's average weight " << setw(8) << setfill(' ') << Sheep << "\n\n";
-  cout << setw(30) << setfill('=') << "=\n";
+unsigned int ValidInput_int(){
+  unsigned int integer;
+  bool ok = false;
+  
+ do{
+    try{
+        cin >> integer;
+        if (cin.fail()){
+          cin.clear();
+          cin.ignore(1000, '\n');
+          throw runtime_error("Input type not matched.");
+        }
+      else{
+        ok = true;
+      }
+      }
+        catch (const runtime_error& e) {
+        cerr << e.what() << endl;
+    }
+   if(!ok)
+     cout<<"Please enter number again : ";
+  }while(!ok);
+  return integer;
 }
 
-void type_instructions() {
-  cout << setw(30) << setfill('=') << "=\n";
-  cout << "Select the species type" << "\n";
-  cout << setw(3) << "1. Pig" << "\n";
-  cout << setw(3) << "2. Chicken" << "\n";
-  cout << setw(3) << "3. Cow" << "\n";
-  cout << setw(3) << "4. Sheep" << "\n";
-  cout << "\n";
-  cout << setw(30) << setfill('=') << "=\n";
-}
+double ValidInput_double(){
+  double decimal;
+  bool ok = false;
 
-void guide(){
-  cout << "\n< USER GUIDE >" << "\n";
-  cout << "   Hello, This guide was written for users to have a better understanding of our program. The main function in this program is to calculate the weight of animals in the farm for shipping." << "\n";
-  
-  cout << "\n 1. Input the number of animals to intitialize farm.\n";
-  cout << "\n 2. Input the type, name, age, and weight of each animal." << "\n";
-  cout << "\n 3. Input the calories of each snack type." << "\n";
-  cout << "\n 4. Select the option program provided.\n";
-  cout << "\n \t4.1 Option 1 : Repeat step 2 for additional animal \n";
-  cout << "\n \t4.2 Select type of snack and program will feed animals in farm & increase their weight, then will queue animals with weight above or equal to their type's average weight\n";
-  cout << "\n \t4.3 Input number of animals in queue you want to ship\n";
-  cout << "\n 5. To end program input 5 as an option \n";
-  
-  
-  cout <<  "\n   The program will then calculate the final weight of each animal after eating the snack. If the animals weight is over average, it is ready to be ship off. If not, the animal will not be queued and continous in the farm, waiting for more snack.\n" << "\n";
-}
-
-void print_option(){
-  cout << setw(30) << setfill('=') << "=\n";
-  cout<<"Options\n";
-  cout<<"1. add animals to farm\n";
-  cout<<"2. feed & queue animals\n";
-  cout<<"3. ship queued animals\n";
-  cout<<"4. end program\n";
-  cout<<"Select a  option : ";
+  do{
+    try{
+        cin >> decimal;
+        if (cin.fail()){
+          cin.clear();
+          cin.ignore(1000, '\n');
+          throw runtime_error("Input type not matched.");
+        }
+      else{
+        ok = true;
+      }
+      }
+        catch (const runtime_error& e) {
+        cerr << e.what() << endl;
+    }
+    if(!ok)
+     cout<<"Please enter number again : ";
+  }while(!ok);
+  return decimal;
 }
 
 void insert_animal(LL &link, int num){
@@ -74,7 +77,7 @@ void insert_animal(LL &link, int num){
     cout<<"Animal number : "<<i+1<<"\n";
     do{
       cout << "Type : ";
-      cin >> type;
+      type = ValidInput_int();
       if(type>4 || type <1)
         cout<<"Invalid type, please enter again\n";
     }while(type>4 || type <1);
@@ -84,14 +87,14 @@ void insert_animal(LL &link, int num){
     
     do{
       cout << "Age : ";
-      cin >> age;  
+      age = ValidInput_int();
       if(age<=0)
         cout<<"Invalid age, please enter again\n";
     }while(age<=0);
     
     do{
       cout << "Weight[kg]: ";
-      cin >> weight;
+      weight = ValidInput_double();
       if(weight<=0)
         cout<<"Invalid weight, please enter again\n";
     }while(weight<=0);
@@ -125,18 +128,22 @@ int main(){
   cout << "Welcome to our program!" << "\n";
   cout << "1. Program Guide" << "\n";
   cout << "2. Start farming" << "\n";
-  cout << "Ans : ";
-  cin >> welcome;
-  if(welcome== 1) 
+  do{
+    cout << "Ans : ";
+    welcome = ValidInput_int();
+    if(welcome != 1 && welcome != 2)
+      cout<<"Please select 1 or 2\n";
+  }while(welcome != 1 && welcome != 2);
+  if(welcome == 1) 
     guide();
   else
-    cout << "\x1B[2J\x1B[H"; //clear console, ANSI escape codes for nixes(using in replit)
+    cout << "\x1B[2J\x1B[H"; //clear console, ANSI escape codes for cross-platform package manager(using in replit)
 
 
   cout<<"starting farm\n";
     do{
     cout << "How many initial animals ? : ";
-    cin >> num;
+      num = ValidInput_int();
     if(num<=0)
       cout<<"Invalid number, please enter number of animals again\n";
     if(num>=MAX_SIZE)
@@ -154,8 +161,13 @@ int main(){
 
   for (unsigned int i = 1; i <= 3; i++) {
     cout << "Calories of Snack type " << i << " [kcal]: ";
-    cin >> cal;
-    snacks.push_back(new Snack(to_string(i), cal));
+      cal = ValidInput_double();
+    if(cal > 0 )
+      snacks.push_back(new Snack(to_string(i), cal));
+    else{
+      cout<<"Invalid calrories, please enter again\n"; 
+      i--;
+    }
   }
   
   snackbubbleSort(snacks);
@@ -170,23 +182,21 @@ int main(){
   
   do{
     print_option();
-    cin>>user_option;
+    user_option = ValidInput_int();
     
     switch(user_option){
       case 1 : {
         cout << "\x1B[2J\x1B[H";
+        animal_face();
+        link.printList();
         do{
-            animal_face();
-            link.printList();
             cout << "How many animals you want to add ? : ";
-            cin >> num;
+            num = ValidInput_int();
             if(num<=0)
               cout<<"Invalid number, please enter number of animals again\n";
             if(num>=MAX_SIZE)
               cout<<"Too large number, please enter number of animals again\n";
           }while(num<=0 || num>=MAX_SIZE);
-        
-          type_instructions();
         
           insert_animal(link,num);
       }
@@ -218,13 +228,13 @@ int main(){
     
           if(link.get_size()!=0) {
             cout << "\nFeed animals\n";
-            cout << "What type of snacks do you want to feed animals ? [1-3]: ";
-            cin >> choice;
-            if (choice < 1 || choice > 3) {
-              cout << "\x1B[2J\x1B[H";
-              cout << "No choice feed snack type 1 instead\n";
-              choice = 1;
-            }
+            cout << "What type of snacks do you want to feed animals ? [1-3] : ";
+            do{
+            choice = ValidInput_int();
+              if(choice < 1 || choice > 3)
+                cout << "Unavailable snack type, please enter type[1-3] : ";
+            }while(choice < 1 || choice > 3);
+            
             cout << "\x1B[2J\x1B[H";
             after_eat(link, avgPig, avgChicken, avgCow, avgSheep, snacks, q, choice);
           }
@@ -255,7 +265,7 @@ int main(){
               cout <<"There are "<< q.get_size() <<" animals in queue\n";
               q.print_queue();
               cout << "How many animals you want to ship ? : ";
-              cin >> ship_num;
+              ship_num = ValidInput_int();
               if (ship_num > q.get_size()) {
                 cout << "\x1B[2J\x1B[H";
                 cout << "Animals in queue is lower than your demand, ship all animals in queue instead\n";
@@ -304,7 +314,6 @@ int main(){
   cout << "Jinnaphat\tGuntawang\t\t(Debugger)" << "\n\n";
   cout << "Special Thanks: Prof.Dr.Mingmanas Sivaraksa\n " << "\n";
   
-
   for (const auto sna : snacks) {
     delete sna;
   }
