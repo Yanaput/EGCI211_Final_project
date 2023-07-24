@@ -40,6 +40,8 @@ public:
 
   double get_cal() const { return calories; }
 
+  string get_name() const{return name;}
+
   string snack_name() const { return name; }
 
 };

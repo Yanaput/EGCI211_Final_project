@@ -62,7 +62,7 @@ void after_eat(LL &animals, double avgPig, double avgChicken, double avgCow,
   double avgSheep, vector<Snack *> &snacks, queue &q, int choice) {
   Animal *current = animals.get_head();
   
-  cout << "Animals get snack type " << choice << " containing " << snacks[choice - 1]->get_cal() << " Kilo calories\n";
+  cout << "You chose choice "<<  choice <<". Animals get snack type " << snacks[choice - 1]->get_name()<< " containing " << snacks[choice - 1]->get_cal() << " Kilo calories\n";
   
   while (current) {
     double inp_agv = 0;
@@ -95,9 +95,12 @@ void after_eat(LL &animals, double avgPig, double avgChicken, double avgCow,
 void print_snack(vector<Snack *> &sna){
   snack_bag();
   cout << "List of snacks\n";
+  int i = 1;
   for (const auto &snack : sna) { // print available snacks
+    cout<< "Choice ["<<i<<"]\n";
     snack->print_info();
     cout << "\n";
+    ++i;
   }
 }
 

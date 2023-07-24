@@ -228,7 +228,7 @@ int main(){
     
           if(link.get_size()!=0) {
             cout << "\nFeed animals\n";
-            cout << "What type of snacks do you want to feed animals ? [1-3] : ";
+            cout << "What choice of snacks do you want to feed animals ? [1-3] : ";
             do{
             choice = ValidInput_int();
               if(choice < 1 || choice > 3)
